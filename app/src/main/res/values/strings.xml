@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">ViewModel</string>
+    <string name="laki">Laki laki</string>
+    <string name="wanita">Wanita</string>
+</resources>
