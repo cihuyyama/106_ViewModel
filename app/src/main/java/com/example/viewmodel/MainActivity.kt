@@ -3,6 +3,7 @@ package com.example.viewmodel
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,6 +18,7 @@ import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -35,9 +37,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.viewmodel.ui.theme.ViewModelTheme
 
@@ -156,64 +161,104 @@ fun LayarForm(cobaViewModel: CobaViewModel = viewModel()) {
     val uiState by cobaViewModel.uiState.collectAsState()
     dataform = uiState
 
-    OutlinedTextField(
-        value = textNama,
-        singleLine = true,
-        shape = MaterialTheme.shapes.large,
-        modifier = Modifier.fillMaxWidth(),
-        label = { Text(text = "Nama Lengkap") },
-        onValueChange = {
-            textNama = it
-        },
-    )
-
-    OutlinedTextField(
-        value = textTlp,
-        singleLine = true,
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-        shape = MaterialTheme.shapes.large,
-        modifier = Modifier.fillMaxWidth(),
-        label = { Text(text = "Telpon") },
-        onValueChange = {
-            textTlp = it
-        },
-    )
-
-    SelectJK(
-        options = DataSource.jenis.map { id -> context.resources.getString(id) },
-        onSelectionChanged = {cobaViewModel.setJenisK(it)}
-    )
-
-    OutlinedTextField(
-        value = textAlm,
-        singleLine = true,
-        shape = MaterialTheme.shapes.large,
-        modifier = Modifier.fillMaxWidth(),
-        label = { Text(text = "Alamat") },
-        onValueChange = {
-            textAlm = it
-        },
-    )
-
-    Spacer(modifier = Modifier.height(16.dp))
-
-    Button(
-        modifier = Modifier.fillMaxWidth(),
-        onClick = {
-            cobaViewModel.insertData(textNama, textTlp, dataform.sex, textAlm)
-        }
+    Column (
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(top = 80.dp, bottom = 16.dp, start = 16.dp, end = 16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Submit")
+        OutlinedTextField(
+            value = textNama,
+            singleLine = true,
+            shape = MaterialTheme.shapes.large,
+            modifier = Modifier.fillMaxWidth(),
+            label = { Text(text = "Nama Lengkap") },
+            onValueChange = {
+                textNama = it
+            },
+        )
+
+        OutlinedTextField(
+            value = textTlp,
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            shape = MaterialTheme.shapes.large,
+            modifier = Modifier.fillMaxWidth(),
+            label = { Text(text = "Telpon") },
+            onValueChange = {
+                textTlp = it
+            },
+        )
+
+        SelectJK(
+            options = DataSource.jenis.map { id -> context.resources.getString(id) },
+            onSelectionChanged = {cobaViewModel.setJenisK(it)}
+        )
+
+        OutlinedTextField(
+            value = textAlm,
+            singleLine = true,
+            shape = MaterialTheme.shapes.large,
+            modifier = Modifier.fillMaxWidth(),
+            label = { Text(text = "Alamat") },
+            onValueChange = {
+                textAlm = it
+            },
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Button(
+            modifier = Modifier.fillMaxWidth(),
+            onClick = {
+                cobaViewModel.insertData(textNama, textTlp, dataform.sex, textAlm)
+            }
+        ) {
+            Text(text = "Submit")
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        TextHasil(
+            namanya = cobaViewModel.namaUsr,
+            telponnya = cobaViewModel.noTlp,
+            jenisnya = cobaViewModel.jenisKL,
+            alamatnya = cobaViewModel.alamat
+        )
     }
+}
 
-    Spacer(modifier = Modifier.height(16.dp))
+@Composable
+fun Headers(){
+    Column (
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 16.dp)
+            .background(Color.White)
+    ) {
+        Row (
+            modifier = Modifier
+                .padding(7.dp)
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.baseline_west_24),
+                contentDescription = null
+            )
+            Column (
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentWidth(Alignment.CenterHorizontally)
+            ) {
+                Text(
+                    text = "Register",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 19.sp,
+                )
+            }
 
-    TextHasil(
-        namanya = cobaViewModel.namaUsr,
-        telponnya = cobaViewModel.noTlp,
-        jenisnya = cobaViewModel.jenisKL,
-        alamatnya = cobaViewModel.alamat
-    )
+        }
+        Divider()
+    }
 }
 
 @Composable
@@ -223,14 +268,8 @@ fun Layar() {
             .fillMaxSize()
             .background(Color.White)
     ) {
-        Column (
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            LayarForm()
-        }
+        Headers()
+        LayarForm()
     }
 }
 
