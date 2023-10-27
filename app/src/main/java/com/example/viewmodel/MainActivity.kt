@@ -64,7 +64,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun TextHasil(namanya: String, telponnya: String, jenisnya: String, alamatnya: String){
+fun TextHasil(namanya: String, telponnya: String, jenisnya: String, alamatnya: String, emailnya: String){
     ElevatedCard(
         elevation = CardDefaults.cardElevation(
             defaultElevation = 6.dp
@@ -89,6 +89,11 @@ fun TextHasil(namanya: String, telponnya: String, jenisnya: String, alamatnya: S
         )
         Text(
             text = "Alamat : " + alamatnya,
+            modifier = Modifier
+                .padding(horizontal = 10.dp, vertical = 5.dp)
+        )
+        Text(
+            text = "Email : " + emailnya,
             modifier = Modifier
                 .padding(horizontal = 10.dp, vertical = 5.dp)
         )
@@ -298,7 +303,8 @@ fun LayarForm(cobaViewModel: CobaViewModel = viewModel()) {
             namanya = cobaViewModel.namaUsr,
             telponnya = cobaViewModel.noTlp,
             jenisnya = cobaViewModel.jenisKL,
-            alamatnya = cobaViewModel.alamat
+            alamatnya = cobaViewModel.alamat,
+            emailnya = cobaViewModel.email
         )
     }
 }
