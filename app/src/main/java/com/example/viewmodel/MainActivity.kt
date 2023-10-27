@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
@@ -98,31 +99,40 @@ fun SelectJK(
         mutableStateOf("")
     }
 
-    Column (
-        modifier = Modifier
-            .padding(16.dp)
-    ) {
-        options.forEach{ item ->
-            Row (
-                modifier = Modifier.selectable(
-                    selected = selectedValue == item,
-                    onClick = {
-                        selectedValue = item
-                        onSelectionChanged(item)
-                    }
-                ),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                RadioButton(
-                    selected = selectedValue == item,
-                    onClick = {
-                        selectedValue = item
-                        onSelectionChanged(item)
-                    }
-                )
-                Text(
-                    item
-                )
+    Column {
+        Text(
+            text = "Jenis Kelamin :",
+            modifier = Modifier
+                .padding(top = 8.dp)
+        )
+        Row (
+            modifier = Modifier
+                .padding(4.dp)
+                .fillMaxWidth()
+                .wrapContentWidth(Alignment.Start)
+        ) {
+            options.forEach{ item ->
+                Row (
+                    modifier = Modifier.selectable(
+                        selected = selectedValue == item,
+                        onClick = {
+                            selectedValue = item
+                            onSelectionChanged(item)
+                        }
+                    ),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    RadioButton(
+                        selected = selectedValue == item,
+                        onClick = {
+                            selectedValue = item
+                            onSelectionChanged(item)
+                        }
+                    )
+                    Text(
+                        item
+                    )
+                }
             }
         }
     }
@@ -169,6 +179,11 @@ fun LayarForm(cobaViewModel: CobaViewModel = viewModel()) {
         },
     )
 
+    SelectJK(
+        options = DataSource.jenis.map { id -> context.resources.getString(id) },
+        onSelectionChanged = {cobaViewModel.setJenisK(it)}
+    )
+
     OutlinedTextField(
         value = textAlm,
         singleLine = true,
@@ -180,10 +195,8 @@ fun LayarForm(cobaViewModel: CobaViewModel = viewModel()) {
         },
     )
 
-    SelectJK(
-        options = DataSource.jenis.map { id -> context.resources.getString(id) },
-        onSelectionChanged = {cobaViewModel.setJenisK(it)}
-    )
+    Spacer(modifier = Modifier.height(16.dp))
+
     Button(
         modifier = Modifier.fillMaxWidth(),
         onClick = {
@@ -192,7 +205,9 @@ fun LayarForm(cobaViewModel: CobaViewModel = viewModel()) {
     ) {
         Text(text = "Submit")
     }
-    Spacer(modifier = Modifier.height(100.dp))
+
+    Spacer(modifier = Modifier.height(16.dp))
+
     TextHasil(
         namanya = cobaViewModel.namaUsr,
         telponnya = cobaViewModel.noTlp,
