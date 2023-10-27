@@ -143,6 +143,54 @@ fun SelectJK(
     }
 }
 
+@Composable
+fun SelectStatus(
+    options: List<String>,
+    onSelectionChanged: (String) -> Unit = {}
+) {
+    var selectedValue by rememberSaveable {
+        mutableStateOf("")
+    }
+
+    Column {
+        Text(
+            text = "Status :",
+            modifier = Modifier
+                .padding(top = 8.dp)
+        )
+        Row (
+            modifier = Modifier
+                .padding(4.dp)
+                .fillMaxWidth()
+                .wrapContentWidth(Alignment.Start)
+        ) {
+            options.forEach{ item ->
+                Row (
+                    modifier = Modifier.selectable(
+                        selected = selectedValue == item,
+                        onClick = {
+                            selectedValue = item
+                            onSelectionChanged(item)
+                        }
+                    ),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    RadioButton(
+                        selected = selectedValue == item,
+                        onClick = {
+                            selectedValue = item
+                            onSelectionChanged(item)
+                        }
+                    )
+                    Text(
+                        item
+                    )
+                }
+            }
+        }
+    }
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LayarForm(cobaViewModel: CobaViewModel = viewModel()) {
@@ -215,6 +263,11 @@ fun LayarForm(cobaViewModel: CobaViewModel = viewModel()) {
         SelectJK(
             options = DataSource.jenis.map { id -> context.resources.getString(id) },
             onSelectionChanged = {cobaViewModel.setJenisK(it)}
+        )
+
+        SelectStatus(
+            options = DataSource.status.map { id -> context.resources.getString(id) },
+            onSelectionChanged = {cobaViewModel.setStatus(it)}
         )
 
         OutlinedTextField(
