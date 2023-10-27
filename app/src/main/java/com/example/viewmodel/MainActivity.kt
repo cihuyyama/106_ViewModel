@@ -164,9 +164,17 @@ fun LayarForm(cobaViewModel: CobaViewModel = viewModel()) {
     Column (
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = 80.dp, bottom = 16.dp, start = 16.dp, end = 16.dp),
+            .padding(top = 70.dp, bottom = 16.dp, start = 16.dp, end = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+
+        Text(
+            text = "Create Your Account",
+            fontWeight = FontWeight.Bold,
+            fontSize = 30.sp,
+            modifier = Modifier.padding(bottom = 7.dp)
+        )
+
         OutlinedTextField(
             value = textNama,
             singleLine = true,
@@ -238,7 +246,7 @@ fun Headers(){
     ) {
         Row (
             modifier = Modifier
-                .padding(7.dp)
+                .padding(16.dp)
         ) {
             Image(
                 painter = painterResource(id = R.drawable.baseline_west_24),
