@@ -155,6 +155,9 @@ fun LayarForm(cobaViewModel: CobaViewModel = viewModel()) {
     var textAlm by remember {
         mutableStateOf("")
     }
+    var textEmail by remember {
+        mutableStateOf("")
+    }
 
     val context = LocalContext.current
     val dataform: DataForm
@@ -198,6 +201,17 @@ fun LayarForm(cobaViewModel: CobaViewModel = viewModel()) {
             },
         )
 
+        OutlinedTextField(
+            value = textEmail,
+            singleLine = true,
+            shape = MaterialTheme.shapes.large,
+            modifier = Modifier.fillMaxWidth(),
+            label = { Text(text = "Email") },
+            onValueChange = {
+                textEmail = it
+            },
+        )
+
         SelectJK(
             options = DataSource.jenis.map { id -> context.resources.getString(id) },
             onSelectionChanged = {cobaViewModel.setJenisK(it)}
@@ -219,7 +233,7 @@ fun LayarForm(cobaViewModel: CobaViewModel = viewModel()) {
         Button(
             modifier = Modifier.fillMaxWidth(),
             onClick = {
-                cobaViewModel.insertData(textNama, textTlp, dataform.sex, textAlm)
+                cobaViewModel.insertData(textNama, textTlp, dataform.sex, textAlm, textEmail)
             }
         ) {
             Text(text = "Submit")
